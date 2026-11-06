@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microservices E-Commerce Shop</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f9; }
+        h1 { color: #333; }
+        .product-card { background: white; padding: 20px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Our E-Commerce Store</h1>
+    <div id="product-list">Loading products from Kubernetes cluster...</div>
+
+    <script>
+        fetch('/api/products')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('product-list');
+                container.innerHTML = '';
+                data.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `<h3>${product.name}</h3><p>Price: ₹${product.price}</p>`;
+                    container.appendChild(card);
+                });
+            })
+            .catch(err => {
+                document.getElementById('product-list').innerText = 'Failed to load products.';
+            });
+    </script>
+</body>
+</html>
